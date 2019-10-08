@@ -10,7 +10,7 @@ namespace TollCalculator.Domain.Tests
         [TestMethod]
         public void ThrowsWhenPassesAreOnDifferentDays()
         {
-            var sut = new EvolveTollCalculator(new NeverHolidayProvider());
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider(), new NoFeeSchedule());
             var dates = new DateTime[]
             {
                 DateTime.Parse("2019-10-09T15:00:00"),

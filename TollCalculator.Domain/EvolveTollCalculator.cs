@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TollCalculator.Domain.FeeSchedule;
 using TollCalculator.Domain.Holidays;
 using TollCalculator.Domain.Vehicles;
 
@@ -8,10 +9,12 @@ namespace TollCalculator.Domain
     public class EvolveTollCalculator : ITollCalculator
     {
         private IHolidayProvider _holidayProvider;
+        private IFeeSchedule _feeSchedule;
 
-        public EvolveTollCalculator(IHolidayProvider holidayProvider)
+        public EvolveTollCalculator(IHolidayProvider holidayProvider, IFeeSchedule feeSchedule)
         {
             _holidayProvider = holidayProvider;
+            _feeSchedule = feeSchedule;
         }
 
         /**
@@ -24,7 +27,7 @@ namespace TollCalculator.Domain
 
         public int GetTollFee(IVehicle vehicle, DateTime[] dates)
         {
-            if (dates.GroupBy(date => date.Date).Count() > 1)
+            if (dates.Select(date => date.Date).Distinct().Count() > 1)
             {
                 throw new ArgumentException("Dates must be on the same day");
             }
@@ -84,49 +87,7 @@ namespace TollCalculator.Domain
                 return 0;
             }
 
-            int hour = date.Hour;
-            int minute = date.Minute;
-
-            if (hour == 6 && minute >= 0 && minute <= 29)
-            {
-                return 8;
-            }
-            else if (hour == 6 && minute >= 30 && minute <= 59)
-            {
-                return 13;
-            }
-            else if (hour == 7 && minute >= 0 && minute <= 59)
-            {
-                return 18;
-            }
-            else if (hour == 8 && minute >= 0 && minute <= 29)
-            {
-                return 13;
-            }
-            else if (hour >= 8 && hour <= 14 && minute >= 30 && minute <= 59)
-            {
-                return 8;
-            }
-            else if (hour == 15 && minute >= 0 && minute <= 29)
-            {
-                return 13;
-            }
-            else if (hour == 15 && minute >= 0 || hour == 16 && minute <= 59)
-            {
-                return 18;
-            }
-            else if (hour == 17 && minute >= 0 && minute <= 59)
-            {
-                return 13;
-            }
-            else if (hour == 18 && minute >= 0 && minute <= 29)
-            {
-                return 8;
-            }
-            else
-            {
-                return 0;
-            }
+            return _feeSchedule.GetFeeForTime(date);
         }
 
         private bool IsTollFreeDate(DateTime date)

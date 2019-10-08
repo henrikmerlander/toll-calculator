@@ -10,7 +10,7 @@ namespace TollCalculator.Domain.Tests
         [TestMethod]
         public void NoMoreThan60SEKChargedPerDay()
         {
-            var sut = new EvolveTollCalculator(new NeverHolidayProvider());
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider(), new FixedFeeSchedule(20));
             var dates = new DateTime[]
             {
                 DateTime.Parse("2019-10-10T06:30:00"),

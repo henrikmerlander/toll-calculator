@@ -12,7 +12,7 @@ namespace TollCalculator.Domain.Tests
         [DynamicData(nameof(FeeFreeVehicles), DynamicDataSourceType.Method)]
         public void FeeFreeVehichlesAreNotCharged(IVehicle vehicle)
         {
-            var sut = new EvolveTollCalculator(new NeverHolidayProvider());
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider(), new FixedFeeSchedule(10));
             var date = DateTime.Parse("2019-10-04T15:00:00"); // Friday afternoon
 
             var tollFee = sut.GetTollFee(vehicle, new DateTime[] { date });
