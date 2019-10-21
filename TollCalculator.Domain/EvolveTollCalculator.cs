@@ -36,8 +36,7 @@ namespace TollCalculator.Domain
                 int nextFee = GetTollFee(vehicle, date);
                 int tempFee = GetTollFee(vehicle, intervalStart);
 
-                var diffInMillies = (date - intervalStart).TotalMilliseconds;
-                var minutes = diffInMillies / 1000 / 60;
+                var minutes = (date - intervalStart).TotalMinutes;
 
                 if (minutes <= 60)
                 {
