@@ -9,5 +9,10 @@ namespace TollCalculator.Domain.Tests.Dummies
         {
             return 0;
         }
+
+        public string Print()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

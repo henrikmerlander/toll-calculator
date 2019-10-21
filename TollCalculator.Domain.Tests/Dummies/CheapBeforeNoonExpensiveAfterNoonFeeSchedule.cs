@@ -11,6 +11,11 @@ namespace TollCalculator.Domain.Tests.Dummies
             {
                 return date.TimeOfDay.CompareTo(TimeSpan.Parse("12:00:00")) < 0 ? 10 : 20;
             }
+
+            public string Print()
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

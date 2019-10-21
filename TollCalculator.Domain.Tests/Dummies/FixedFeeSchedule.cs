@@ -16,5 +16,10 @@ namespace TollCalculator.Domain.Tests.Dummies
         {
             return _fixedFee;
         }
+
+        public string Print()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
