@@ -6,5 +6,10 @@
         {
             return "Emergency";
         }
+
+        public bool IsTollFree()
+        {
+            return true;
+        }
     }
 }

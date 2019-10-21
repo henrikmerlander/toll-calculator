@@ -6,5 +6,10 @@
         {
             return "Motorbike";
         }
+
+        public bool IsTollFree()
+        {
+            return true;
+        }
     }
 }

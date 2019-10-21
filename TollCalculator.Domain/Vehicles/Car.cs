@@ -6,5 +6,10 @@
         {
             return "Car";
         }
+
+        public bool IsTollFree()
+        {
+            return false;
+        }
     }
 }

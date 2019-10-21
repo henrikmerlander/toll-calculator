@@ -6,5 +6,10 @@
         {
             return "Military";
         }
+
+        public bool IsTollFree()
+        {
+            return true;
+        }
     }
 }

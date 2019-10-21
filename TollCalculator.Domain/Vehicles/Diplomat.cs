@@ -6,5 +6,10 @@
         {
             return "Diplomat";
         }
+
+        public bool IsTollFree()
+        {
+            return true;
+        }
     }
 }

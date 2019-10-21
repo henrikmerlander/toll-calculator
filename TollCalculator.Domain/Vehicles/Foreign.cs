@@ -6,5 +6,10 @@
         {
             return "Foreign";
         }
+
+        public bool IsTollFree()
+        {
+            return true;
+        }
     }
 }
