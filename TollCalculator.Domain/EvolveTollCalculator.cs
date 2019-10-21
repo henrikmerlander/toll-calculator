@@ -11,6 +11,8 @@ namespace TollCalculator.Domain
         private readonly IHolidayProvider _holidayProvider;
         private readonly IFeeSchedule _feeSchedule;
 
+        private const int MaxPricePerDay = 60;
+
         public EvolveTollCalculator(IHolidayProvider holidayProvider, IFeeSchedule feeSchedule)
         {
             _holidayProvider = holidayProvider;
@@ -61,7 +63,7 @@ namespace TollCalculator.Domain
                 }
             }
 
-            return Math.Min(totalFee, 60);
+            return Math.Min(totalFee, MaxPricePerDay);
         }
 
         private bool IsTollFreeVehicle(IVehicle vehicle)
