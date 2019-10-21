@@ -35,6 +35,23 @@ namespace TollCalculator.Domain.Tests
             Assert.AreEqual(20, tollFee);
         }
 
+        [TestMethod]
+        public void PassingContinuouslyWithOneHourInBetweenChargesEachTime()
+        {
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider(), new FixedFeeSchedule(10));
+
+            var tollFee = sut.GetTollFee(new Car(), new DateTime[]
+            {
+                DateTime.Parse("2019-10-04T11:00:00"),
+                DateTime.Parse("2019-10-04T12:00:00"),
+                DateTime.Parse("2019-10-04T13:00:00"),
+                DateTime.Parse("2019-10-04T14:00:00"),
+                DateTime.Parse("2019-10-04T15:00:00"),
+            });
+
+            Assert.AreEqual(50, tollFee);
+        }
+
         private class CheapBeforeNoonExpensiveAfterNoonFeeSchedule : IFeeSchedule
         {
             public int GetFeeForTime(DateTime date)
