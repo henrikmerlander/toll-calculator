@@ -25,5 +25,10 @@ namespace TollCalculator.Domain.FeeSchedule
 
             return feeInterval == null ? 0 : feeInterval.Fee();
         }
+
+        public string Print()
+        {
+            return string.Join("\n", FeeIntervals.Select(f => f.Print()));
+        }
     }
 }

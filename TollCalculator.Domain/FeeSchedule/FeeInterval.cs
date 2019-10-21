@@ -24,5 +24,10 @@ namespace TollCalculator.Domain.FeeSchedule
         {
             return _fee;
         }
+
+        public string Print()
+        {
+            return $"{_startTime} - {_endTime}: {_fee}";
+        }
     }
 }
