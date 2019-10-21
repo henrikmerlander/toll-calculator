@@ -68,7 +68,7 @@ namespace TollCalculator.Domain
                    vehicleType.Equals(TollFreeVehicles.Military.ToString());
         }
 
-        public int GetTollFee(IVehicle vehicle, DateTime date)
+        private int GetTollFee(IVehicle vehicle, DateTime date)
         {
             if (IsTollFreeDate(date) || IsTollFreeVehicle(vehicle))
             {
