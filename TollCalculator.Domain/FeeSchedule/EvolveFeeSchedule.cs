@@ -1,54 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TollCalculator.Domain.FeeSchedule
 {
     public class EvolveFeeSchedule : IFeeSchedule
     {
+        private List<FeeInterval> FeeIntervals = new List<FeeInterval>
+        {
+            new FeeInterval(new TimeSpan(6, 0, 00), new TimeSpan(6, 29, 59), 8),
+            new FeeInterval(new TimeSpan(6, 30, 00), new TimeSpan(6, 59, 59), 13),
+            new FeeInterval(new TimeSpan(7, 00, 00), new TimeSpan(7, 59, 59), 18),
+            new FeeInterval(new TimeSpan(8, 00, 00), new TimeSpan(8, 29, 59), 13),
+            new FeeInterval(new TimeSpan(8, 30, 00), new TimeSpan(14, 59, 59), 8),
+            new FeeInterval(new TimeSpan(15, 00, 00), new TimeSpan(15, 29, 59), 13),
+            new FeeInterval(new TimeSpan(15, 30, 00), new TimeSpan(16, 59, 59), 18),
+            new FeeInterval(new TimeSpan(17, 00, 00), new TimeSpan(17, 59, 59), 13),
+            new FeeInterval(new TimeSpan(18, 00, 00), new TimeSpan(18, 29, 59), 13),
+        };
+
         public int GetFeeForTime(DateTime date)
         {
             int hour = date.Hour;
             int minute = date.Minute;
 
-            if (hour == 6 && minute >= 0 && minute <= 29)
-            {
-                return 8;
-            }
-            else if (hour == 6 && minute >= 30 && minute <= 59)
-            {
-                return 13;
-            }
-            else if (hour == 7 && minute >= 0 && minute <= 59)
-            {
-                return 18;
-            }
-            else if (hour == 8 && minute >= 0 && minute <= 29)
-            {
-                return 13;
-            }
-            else if (hour >= 8 && hour <= 14 && minute >= 30 && minute <= 59)
-            {
-                return 8;
-            }
-            else if (hour == 15 && minute >= 0 && minute <= 29)
-            {
-                return 13;
-            }
-            else if (hour == 15 && minute >= 0 || hour == 16 && minute <= 59)
-            {
-                return 18;
-            }
-            else if (hour == 17 && minute >= 0 && minute <= 59)
-            {
-                return 13;
-            }
-            else if (hour == 18 && minute >= 0 && minute <= 29)
-            {
-                return 8;
-            }
-            else
-            {
-                return 0;
-            }
+            var feeInterval = FeeIntervals.FirstOrDefault(f => f.IsWithinInterval(date));
+
+            return feeInterval == null ? 0 : feeInterval.Fee();
         }
     }
 }
