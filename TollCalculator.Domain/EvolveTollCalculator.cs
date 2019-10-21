@@ -72,7 +72,7 @@ namespace TollCalculator.Domain
                 {
                     feeablePeriods.Add(new List<DateTime>
                     {
-                        orderedDates.ElementAt(i)
+                        currentDate
                     });
                 }
                 else
