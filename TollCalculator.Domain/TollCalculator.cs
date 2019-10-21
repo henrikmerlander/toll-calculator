@@ -1,4 +1,5 @@
 ﻿using System;
+using TollCalculator.Domain.Vehicles;
 
 namespace TollCalculator.Domain
 {
