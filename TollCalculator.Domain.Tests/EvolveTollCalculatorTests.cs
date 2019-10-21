@@ -8,52 +8,72 @@ namespace TollCalculator.Domain.Tests
     [TestClass]
     public class EvolveTollCalculatorTests
     {
-        private EvolveTollCalculator _evolveTollCalculator;
-
-        public EvolveTollCalculatorTests()
-        {
-            _evolveTollCalculator = new EvolveTollCalculator();
-        }
-
         [TestMethod]
         public void WeekdayIsCharged()
         {
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider());
             var date = DateTime.Parse("2019-10-04T15:00:00"); // Friday afternoon
 
-            var tollFee = _evolveTollCalculator.GetTollFee(new Car(), new DateTime[] { date });
+            var tollFee = sut.GetTollFee(new Car(), new DateTime[] { date });
 
             Assert.IsTrue(tollFee > 0);
+        }
+
+        [DataTestMethod]
+        [DataRow("2019-10-05T15:00:00")] // Saturday
+        [DataRow("2019-10-06T15:00:00")] // Sunday
+        public void WeekendsAreFeeFree(string dateString)
+        {
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider());
+            var date = DateTime.Parse(dateString);
+
+            var tollFee = sut.GetTollFee(new Car(), new DateTime[] { date });
+
+            Assert.AreEqual(0, tollFee);
+        }
+
+        [TestMethod]
+        public void HolidaysAreFeeFree()
+        {
+            var sut = new EvolveTollCalculator(new AlwaysHolidayProvider());
+            var date = DateTime.Parse("2019-10-10T15:00:00");
+
+            var tollFee = sut.GetTollFee(new Car(), new DateTime[] { date });
+
+            Assert.AreEqual(0, tollFee);
         }
 
         [TestMethod]
         public void NoFeeDuringNightTime()
         {
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider());
             var date = DateTime.Parse("2019-10-04T23:00:00"); // Friday night
 
-            var tollFee = _evolveTollCalculator.GetTollFee(new Car(), new DateTime[] { date });
+            var tollFee = sut.GetTollFee(new Car(), new DateTime[] { date });
 
             Assert.AreEqual(0, tollFee);
         }
 
-        [DataTestMethod]
-        [DataRow("2019-10-05")] // Saturday
-        [DataRow("2019-10-06")] // Sunday
-        public void WeekendsAreFeeFree(string dateString)
+        [TestMethod]
+        public void OnlyTheHighestFeeIsChargedPerHour()
         {
-            var date = DateTime.Parse(dateString);
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider());
+            var cheapPass = DateTime.Parse("2019-10-04T14:30:00"); // Before rush hour
+            var expensivePass = DateTime.Parse("2019-10-04T15:00:00"); // Rush hour
 
-            var tollFee = _evolveTollCalculator.GetTollFee(new Car(), new DateTime[] { date });
+            var tollFee = sut.GetTollFee(new Car(), new DateTime[] { cheapPass, expensivePass });
 
-            Assert.AreEqual(0, tollFee);
+            Assert.AreEqual(13, tollFee);
         }
 
         [DataTestMethod]
         [DynamicData(nameof(FeeFreeVehicles), DynamicDataSourceType.Method)]
         public void FeeFreeVehichlesAreNotCharged(IVehicle vehicle)
         {
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider());
             var date = DateTime.Parse("2019-10-04T15:00:00"); // Friday afternoon
 
-            var tollFee = _evolveTollCalculator.GetTollFee(vehicle, new DateTime[] { date });
+            var tollFee = sut.GetTollFee(vehicle, new DateTime[] { date });
 
             Assert.AreEqual(0, tollFee);
         }
