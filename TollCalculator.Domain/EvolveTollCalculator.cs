@@ -34,12 +34,12 @@ namespace TollCalculator.Domain
                 throw new ArgumentException("Dates must be on the same day");
             }
 
-            DateTime intervalStart = dates[0];
-            int totalFee = 0;
-            foreach (DateTime date in dates)
+            var intervalStart = dates[0];
+            var totalFee = 0;
+            foreach (var date in dates)
             {
-                int nextFee = GetTollFee(vehicle, date);
-                int tempFee = GetTollFee(vehicle, intervalStart);
+                var nextFee = GetTollFee(vehicle, date);
+                var tempFee = GetTollFee(vehicle, intervalStart);
 
                 var minutes = (date - intervalStart).TotalMinutes;
 
