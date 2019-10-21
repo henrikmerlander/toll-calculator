@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TollCalculator.Domain", "TollCalculator.Domain\TollCalculator.Domain.csproj", "{FBC5ED49-49E4-432A-91E4-1F4C7A75B04F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TollCalculator.Domain", "TollCalculator.Domain\TollCalculator.Domain.csproj", "{FBC5ED49-49E4-432A-91E4-1F4C7A75B04F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TollCalculator.Domain.Tests", "TollCalculator.Domain.Tests\TollCalculator.Domain.Tests.csproj", "{6150195E-4512-4484-B3AC-43440A4967FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TollCalculator.Domain.Tests", "TollCalculator.Domain.Tests\TollCalculator.Domain.Tests.csproj", "{6150195E-4512-4484-B3AC-43440A4967FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TollCalculator.ConsoleExample", "TollCalculator.Console\TollCalculator.ConsoleExample.csproj", "{C184AECF-107E-453E-84C5-7D67B3CFDDF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6150195E-4512-4484-B3AC-43440A4967FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6150195E-4512-4484-B3AC-43440A4967FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6150195E-4512-4484-B3AC-43440A4967FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C184AECF-107E-453E-84C5-7D67B3CFDDF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C184AECF-107E-453E-84C5-7D67B3CFDDF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C184AECF-107E-453E-84C5-7D67B3CFDDF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C184AECF-107E-453E-84C5-7D67B3CFDDF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
