@@ -35,11 +35,17 @@ namespace TollCalculator.Domain
             }
 
             var intervalStart = dates[0];
+
+            if (IsTollFreeDate(intervalStart) || vehicle.IsTollFree())
+            {
+                return 0;
+            }
+
             var totalFee = 0;
             foreach (var date in dates)
             {
-                var nextFee = GetTollFee(vehicle, date);
-                var tempFee = GetTollFee(vehicle, intervalStart);
+                var nextFee = _feeSchedule.GetFeeForTime(date);
+                var tempFee = _feeSchedule.GetFeeForTime(intervalStart);
 
                 var minutes = (date - intervalStart).TotalMinutes;
 
@@ -64,16 +70,6 @@ namespace TollCalculator.Domain
             }
 
             return Math.Min(totalFee, MaxPricePerDay);
-        }
-
-        private int GetTollFee(IVehicle vehicle, DateTime date)
-        {
-            if (IsTollFreeDate(date) || vehicle.IsTollFree())
-            {
-                return 0;
-            }
-
-            return _feeSchedule.GetFeeForTime(date);
         }
 
         private bool IsTollFreeDate(DateTime date)
