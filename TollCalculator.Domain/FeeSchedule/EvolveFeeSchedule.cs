@@ -21,7 +21,7 @@ namespace TollCalculator.Domain.FeeSchedule
 
         public int GetFeeForTime(DateTime date)
         {
-            var feeInterval = FeeIntervals.FirstOrDefault(f => f.IsWithinInterval(date));
+            var feeInterval = FeeIntervals.FirstOrDefault(f => f.Includes(date));
 
             return feeInterval == null ? 0 : feeInterval.Fee();
         }

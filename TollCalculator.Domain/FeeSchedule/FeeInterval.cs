@@ -15,7 +15,7 @@ namespace TollCalculator.Domain.FeeSchedule
             _fee = fee;
         }
 
-        public bool IsWithinInterval(DateTime date)
+        public bool Includes(DateTime date)
         {
             return _startTime <= date.TimeOfDay && _endTime >= date.TimeOfDay;
         }

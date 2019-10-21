@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TollCalculator.Domain.FeeSchedule;
 using TollCalculator.Domain.Holidays;
@@ -12,6 +13,7 @@ namespace TollCalculator.Domain
         private readonly IFeeSchedule _feeSchedule;
 
         private const int MaxPricePerDay = 60;
+        private TimeSpan FeeGracePeriod = TimeSpan.FromHours(1);
 
         public EvolveTollCalculator(IHolidayProvider holidayProvider, IFeeSchedule feeSchedule)
         {
@@ -34,40 +36,17 @@ namespace TollCalculator.Domain
                 throw new ArgumentException("Dates must be on the same day");
             }
 
-            var intervalStart = dates[0];
+            var orderedDates = dates.OrderBy(date => date);
+            var firstDate = orderedDates.First();
 
-            if (IsTollFreeDate(intervalStart) || vehicle.IsTollFree())
+            if (IsTollFreeDate(firstDate) || vehicle.IsTollFree())
             {
                 return 0;
             }
 
-            var totalFee = 0;
-            foreach (var date in dates)
-            {
-                var nextFee = _feeSchedule.GetFeeForTime(date);
-                var tempFee = _feeSchedule.GetFeeForTime(intervalStart);
+            var feeablePeriods = GetFeeablePeriods(orderedDates);
 
-                var minutes = (date - intervalStart).TotalMinutes;
-
-                if (minutes <= 60)
-                {
-                    if (totalFee > 0)
-                    {
-                        totalFee -= tempFee;
-                    }
-
-                    if (nextFee >= tempFee)
-                    {
-                        tempFee = nextFee;
-                    }
-
-                    totalFee += tempFee;
-                }
-                else
-                {
-                    totalFee += nextFee;
-                }
-            }
+            var totalFee = feeablePeriods.Sum(period => period.Max(date => _feeSchedule.GetFeeForTime(date)));
 
             return Math.Min(totalFee, MaxPricePerDay);
         }
@@ -78,6 +57,36 @@ namespace TollCalculator.Domain
                 date.DayOfWeek == DayOfWeek.Saturday ||
                 date.DayOfWeek == DayOfWeek.Sunday ||
                 _holidayProvider.IsHoliday(date);
+        }
+
+        private List<List<DateTime>> GetFeeablePeriods(IOrderedEnumerable<DateTime> orderedDates)
+        {
+            var feeablePeriods = new List<List<DateTime>>();
+
+            for (int i = 0; i < orderedDates.Count(); i++)
+            {
+                var currentDate = orderedDates.ElementAt(i);
+                var isNewPeriodInitiated = i == 0 || currentDate - LastPeriodStartDate(feeablePeriods) >= FeeGracePeriod;
+
+                if (isNewPeriodInitiated)
+                {
+                    feeablePeriods.Add(new List<DateTime>
+                    {
+                        orderedDates.ElementAt(i)
+                    });
+                }
+                else
+                {
+                    feeablePeriods.Last().Add(currentDate);
+                }
+            }
+
+            return feeablePeriods;
+        }
+
+        private DateTime LastPeriodStartDate(List<List<DateTime>> periods)
+        {
+            return periods.Last().First();
         }
     }
 }

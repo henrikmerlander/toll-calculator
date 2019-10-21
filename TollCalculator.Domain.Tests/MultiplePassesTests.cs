@@ -20,6 +20,21 @@ namespace TollCalculator.Domain.Tests
             Assert.AreEqual(20, tollFee);
         }
 
+        [TestMethod]
+        public void PassingTwoTimesInTheMorningAndTwoTimesInTheAfternoonChargesTwice()
+        {
+            var sut = new EvolveTollCalculator(new NeverHolidayProvider(), new FixedFeeSchedule(10));
+            var earlyPass = DateTime.Parse("2019-10-04T08:00:00");
+            var earlyPass2 = DateTime.Parse("2019-10-04T08:05:00");
+
+            var latePass = DateTime.Parse("2019-10-04T14:00:00");
+            var latePass2 = DateTime.Parse("2019-10-04T14:05:00");
+
+            var tollFee = sut.GetTollFee(new Car(), new DateTime[] { earlyPass, earlyPass2, latePass, latePass2 });
+
+            Assert.AreEqual(20, tollFee);
+        }
+
         private class CheapBeforeNoonExpensiveAfterNoonFeeSchedule : IFeeSchedule
         {
             public int GetFeeForTime(DateTime date)
