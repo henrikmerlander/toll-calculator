@@ -7,17 +7,6 @@ namespace TollCalculator.Domain.Tests
     [TestClass]
     public class FreeDaysTests
     {
-        [TestMethod]
-        public void WeekdayIsCharged()
-        {
-            var sut = new EvolveTollCalculator(new NeverHolidayProvider());
-            var date = DateTime.Parse("2019-10-04T15:00:00"); // Friday afternoon
-
-            var tollFee = sut.GetTollFee(new Car(), new DateTime[] { date });
-
-            Assert.IsTrue(tollFee > 0);
-        }
-
         [DataTestMethod]
         [DataRow("2019-10-05T15:00:00")] // Saturday
         [DataRow("2019-10-06T15:00:00")] // Sunday
