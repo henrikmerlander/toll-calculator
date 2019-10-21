@@ -135,17 +135,10 @@ namespace TollCalculator.Domain
 
         private bool IsTollFreeDate(DateTime date)
         {
-            if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
-            {
-                return true;
-            }
-
-            if (_holidayProvider.IsHoliday(date))
-            {
-                return true;
-            }
-
-            return false;
+            return
+                date.DayOfWeek == DayOfWeek.Saturday ||
+                date.DayOfWeek == DayOfWeek.Sunday ||
+                _holidayProvider.IsHoliday(date);
         }
 
         private enum TollFreeVehicles
