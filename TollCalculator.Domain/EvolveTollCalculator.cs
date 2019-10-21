@@ -8,8 +8,8 @@ namespace TollCalculator.Domain
 {
     public class EvolveTollCalculator : ITollCalculator
     {
-        private IHolidayProvider _holidayProvider;
-        private IFeeSchedule _feeSchedule;
+        private readonly IHolidayProvider _holidayProvider;
+        private readonly IFeeSchedule _feeSchedule;
 
         public EvolveTollCalculator(IHolidayProvider holidayProvider, IFeeSchedule feeSchedule)
         {
