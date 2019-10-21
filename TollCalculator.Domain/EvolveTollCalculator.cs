@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TollCalculator.Domain.Holidays;
 using TollCalculator.Domain.Vehicles;
 
@@ -23,6 +24,11 @@ namespace TollCalculator.Domain
 
         public int GetTollFee(IVehicle vehicle, DateTime[] dates)
         {
+            if (dates.GroupBy(date => date.Date).Count() > 1)
+            {
+                throw new ArgumentException("Dates must be on the same day");
+            }
+
             DateTime intervalStart = dates[0];
             int totalFee = 0;
             foreach (DateTime date in dates)
