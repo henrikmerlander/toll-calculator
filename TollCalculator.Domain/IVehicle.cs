@@ -1,6 +1,6 @@
 ﻿namespace TollCalculator.Domain
 {
-    public interface Vehicle
+    public interface IVehicle
     {
         string GetVehicleType();
     }
