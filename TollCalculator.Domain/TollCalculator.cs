@@ -18,8 +18,8 @@ namespace TollCalculator.Domain
             int totalFee = 0;
             foreach (DateTime date in dates)
             {
-                int nextFee = GetTollFee(date, vehicle);
-                int tempFee = GetTollFee(intervalStart, vehicle);
+                int nextFee = GetTollFee(vehicle, date);
+                int tempFee = GetTollFee(vehicle, intervalStart);
 
                 long diffInMillies = date.Millisecond - intervalStart.Millisecond;
                 long minutes = diffInMillies / 1000 / 60;
@@ -67,7 +67,7 @@ namespace TollCalculator.Domain
                    vehicleType.Equals(TollFreeVehicles.Military.ToString());
         }
 
-        public int GetTollFee(DateTime date, Vehicle vehicle)
+        public int GetTollFee(Vehicle vehicle, DateTime date)
         {
             if (IsTollFreeDate(date) || IsTollFreeVehicle(vehicle))
             {
