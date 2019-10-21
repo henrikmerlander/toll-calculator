@@ -3,7 +3,7 @@ using TollCalculator.Domain.Vehicles;
 
 namespace TollCalculator.Domain
 {
-    public class TollCalculator
+    public class TollCalculator : ITollCalculator
     {
         /**
          * Calculate the total toll fee for one day
