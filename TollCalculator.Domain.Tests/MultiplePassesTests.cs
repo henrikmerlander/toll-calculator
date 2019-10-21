@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TollCalculator.Domain.FeeSchedule;
+using TollCalculator.Domain.Tests.Dummies;
 using TollCalculator.Domain.Vehicles;
+using static TollCalculator.Domain.Tests.Dummies.MultiplePassesTests;
 
 namespace TollCalculator.Domain.Tests
 {
     [TestClass]
-    public class MultiplePassesTests
+    public partial class MultiplePassesTests
     {
         [TestMethod]
         public void OnlyTheHighestFeeIsChargedPerHour()
@@ -50,14 +51,6 @@ namespace TollCalculator.Domain.Tests
             });
 
             Assert.AreEqual(50, tollFee);
-        }
-
-        private class CheapBeforeNoonExpensiveAfterNoonFeeSchedule : IFeeSchedule
-        {
-            public int GetFeeForTime(DateTime date)
-            {
-                return date.TimeOfDay.CompareTo(TimeSpan.Parse("12:00:00")) < 0 ? 10 : 20;
-            }
         }
     }
 }

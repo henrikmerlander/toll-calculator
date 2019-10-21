@@ -1,7 +1,7 @@
 ﻿using System;
 using TollCalculator.Domain.FeeSchedule;
 
-namespace TollCalculator.Domain.Tests
+namespace TollCalculator.Domain.Tests.Dummies
 {
     public class FixedFeeSchedule : IFeeSchedule
     {

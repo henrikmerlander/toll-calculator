@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TollCalculator.Domain.Tests.Dummies;
 using TollCalculator.Domain.Vehicles;
 
 namespace TollCalculator.Domain.Tests

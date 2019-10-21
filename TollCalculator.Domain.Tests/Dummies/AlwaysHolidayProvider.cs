@@ -1,13 +1,13 @@
 ﻿using System;
 using TollCalculator.Domain.Holidays;
 
-namespace TollCalculator.Domain.Tests
+namespace TollCalculator.Domain.Tests.Dummies
 {
-    public class NeverHolidayProvider : IHolidayProvider
+    public class AlwaysHolidayProvider : IHolidayProvider
     {
         public bool IsHoliday(DateTime date)
         {
-            return false;
+            return true;
         }
     }
 }
