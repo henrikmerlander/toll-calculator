@@ -63,7 +63,7 @@ namespace TollCalculator.Domain
         {
             var feeablePeriods = new List<List<DateTime>>();
 
-            for (int i = 0; i < orderedDates.Count(); i++)
+            for (var i = 0; i < orderedDates.Count(); i++)
             {
                 var currentDate = orderedDates.ElementAt(i);
                 var isNewPeriodInitiated = i == 0 || currentDate - LastPeriodStartDate(feeablePeriods) >= FeeGracePeriod;
